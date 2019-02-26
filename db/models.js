@@ -17,7 +17,7 @@ const userSchema = new Schema({
 const classesSchema = new Schema({
   name: {type: String},
   day: {type: String},
-  time: {type: Integer},
+  time: {type: Number},
   _created: {type: Date, default: Date.now }
 });
 
