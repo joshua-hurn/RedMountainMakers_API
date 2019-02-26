@@ -37,17 +37,46 @@ router.get('/users', (req, res, next) => {
     });
 });
 
-router.get('/user/:id', (req, res, next) => {
-    Users.findById()
+// One User by id // works!
+router.get('/users/:id', (req, res, next) => {
+    let id = req.params.id;
+    Users.findById(id, (err, user) => {
+      if (err) console.log(err);
+      res.send(user);
+    })
 });
 
 // Create new user //
 router.post('/user/:id', (res, res, next) => {
-   let newUser = new User({ }) 
-   Users.save(function (err, user) {
-        if (err) console.log(err);
-        console.log(`${user} saved`)
-      })
+  let newUser = new User({ 
+      email: req.body.email,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      password: req.body.password,
+      membershipType: req.body.membershipType,
+      membershipStatus: req.body.membershipStatus
+   });
+  newUser.create({newUser}, function (err, user) {
+      if (err) return err
+      console.log(err);
+  });
+});
+
+// Class routes // works!
+router.get('/classes', (req, res, next) => {
+  Classes.find(function (err, classes) {
+      if (err) return console.log(err);
+      res.send(classes);
+  });
+});
+
+// One Class by id // works!
+router.get('/classes/:id', (req, res, next) => {
+  let id = req.params.id;
+  Classes.findById(id, (err, oneClass) => {
+    if (err) console.log(err);
+    res.send(oneClass);
+  })
 });
 
 module.exports = router;
