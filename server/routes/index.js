@@ -30,10 +30,10 @@ router.param('classID', function (req, res, next, id) {
 });
 
 // User routes
-router.get('/user/:id', (req, res, next) => {
-    Users.findById({}).sort({ createdAt: -1 }).exec((err, questions) => {
+router.get('/users', (req, res, next) => {
+    Users.find({}).exec((err, users) => {
       if (err) return next(err);
-      res.json(questions);
+      console.log(users);
     });
   });
 

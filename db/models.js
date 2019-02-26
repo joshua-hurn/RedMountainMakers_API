@@ -8,7 +8,7 @@ const userSchema = new Schema({
   },
   firstName: {type: String},
   lastName: {type: String},
-  password: {type: String},
+  password: {type: String, required: true, select: false},
   membershipType: {type: String},
   membershipStatus: {type: Boolean},
   _created: {type: Date, default: Date.now }
