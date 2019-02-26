@@ -29,7 +29,7 @@ router.param('classID', function (req, res, next, id) {
     });
 });
 
-// User routes // works!
+// User routes // 
 router.get('/users', (req, res, next) => {
     Users.find(function (err, users) {
         if (err) return console.log(err);
@@ -37,17 +37,25 @@ router.get('/users', (req, res, next) => {
     });
 });
 
+// Get one user //
 router.get('/user/:id', (req, res, next) => {
     Users.findById()
 });
 
 // Create new user //
 router.post('/user/:id', (res, res, next) => {
-   let newUser = new User({ }) 
-   Users.save(function (err, user) {
-        if (err) console.log(err);
-        console.log(`${user} saved`)
-      })
+   let newUser = new User({ 
+       email: req.body.email,
+       firstName: req.body.firstName,
+       lastName: req.body.lastName,
+       password: req.body.password,
+       membershipType: req.body.membershipType,
+       membershipStatus: req.body.membershipStatus
+    });
+   newUser.create({newUser}, function (err, user) {
+       if (err) return err
+       console.log(err);
+   });
 });
 
 module.exports = router;
