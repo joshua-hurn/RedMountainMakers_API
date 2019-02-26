@@ -31,10 +31,10 @@ router.param('classID', function (req, res, next, id) {
 
 // User routes
 router.get('/users', (req, res, next) => {
-    Users.find({}).exec((err, users) => {
-      if (err) return next(err);
-      console.log(users);
+    Users.find(function (err, users) {
+        if (err) return console.log(err);
+        res.send(users);
     });
-  });
+});
 
 module.exports = router;
