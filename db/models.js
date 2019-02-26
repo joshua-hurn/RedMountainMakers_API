@@ -17,11 +17,11 @@ const userSchema = new Schema({
 const classesSchema = new Schema({
   name: {type: String},
   day: {type: String},
-  time: {type: Number},
+  time: {type: String},
   _created: {type: Date, default: Date.now }
 });
 
-const Users = mongoose.model('user', userSchema);
-const Classes = mongoose.model('classes', classesSchema);
+const Users = mongoose.model('Users', userSchema);
+const Classes = mongoose.model('Classes', classesSchema);
 module.exports.Users = Users;
 module.exports.Classes = Classes;
