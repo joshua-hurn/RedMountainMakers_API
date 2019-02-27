@@ -3,8 +3,6 @@ const router = express.Router();
 const Users = require('../../db/models').Users;
 const Classes = require('../../db/models').Classes;
 
-
-
 // User routes // Works!
 router.get('/users', (req, res, next) => {
   Users.find(function (err, users) {
