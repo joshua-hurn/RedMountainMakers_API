@@ -12,7 +12,10 @@ app.use('/api', routes);
 
 app.listen(PORT, () => {
     console.log(`server running on port ${PORT}`);
-    mongoose.connect(uri, {useNewUrlParser: true});
+    mongoose.connect(uri, {
+      useCreateIndex: true,
+      useNewUrlParser: true
+    });
 });
 const db = mongoose.connection;
 
