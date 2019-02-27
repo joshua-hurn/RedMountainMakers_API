@@ -1,7 +1,8 @@
+require('dotenv').config()
 const express = require('express');
 const routes = require('./routes');
 const mongoose = require('mongoose');
-const uri = "mongodb+srv://mbanks:12345@rmm-api-0m2qy.mongodb.net/test?retryWrites=true";
+const uri = process.env.MONGODB_URI;
 
 const app = express();
 const PORT = 3000;
