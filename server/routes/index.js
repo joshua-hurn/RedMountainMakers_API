@@ -32,16 +32,25 @@ router.post('/users', (req, res, next) => {
   });
   newUser.save(function (err) {
     if (err) return err
-    console.log("success");
+    res.send("User Created");
   });
 });
 
-// Update User //
+// Update User // Works!
 router.put('/users/:id', (req, res, next) => {
   Users.findOneAndUpdate({_id: {$eq: req.params.id}}, {$set: req.body}, 
-    (err, user) => {
+    (err) => {
       if (err) return next(err);
       res.send('User updated.');
+    });
+});
+
+// Delete User // Works!
+router.delete('/users/:id', (req, res, next) => {
+  Users.findOneAndDelete({_id: {$eq: req.params.id}}, 
+    (err) => {
+      if (err) return next(err);
+      res.send('User Deleted.');
     });
 });
 
