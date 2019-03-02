@@ -69,7 +69,7 @@ router.post('/register', (req, res) => {
 // Login Handle // works
 router.post('/login', (req, res, next) => {
   passport.authenticate('local', {
-    successRedirect: '/api/home',
+    // successRedirect: '/api/home',
     failureRedirect: '/api/login'
   })(req, res, next);
 });
@@ -77,17 +77,16 @@ router.post('/login', (req, res, next) => {
 // Logout // works
 router.get('/logout', (req, res) => {
   req.logout();
-  // req.flash('success_msg', 'You are logged out');
   res.redirect('/api/login');
 });
 
 // Home Page // works
-router.get('/home', (req, res, next) => {
+router.get('/home', (req, res) => {
   res.send('home page')
 });
 
 // User routes // Works!
-router.get('/users', (req, res, next) => {
+router.get('/users', (req, res) => {
   Users.find(function (err, users) {
     if (err) return console.log(err);
     res.send(users);
@@ -95,7 +94,7 @@ router.get('/users', (req, res, next) => {
 });
 
 // One User by id // works!
-router.get('/users/:id', (req, res, next) => {
+router.get('/users/:id', (req, res) => {
   let id = req.params.id;
   Users.findById(id, (err, user) => {
     if (err) console.log(err);
@@ -104,7 +103,7 @@ router.get('/users/:id', (req, res, next) => {
 });
 
 // Create new user // works!
-router.post('/users', (req, res, next) => {
+router.post('/users', (req, res) => {
   let newUser = Users({
     email: req.body.email,
     firstName: req.body.firstName,
@@ -138,7 +137,7 @@ router.delete('/users/:id', (req, res, next) => {
 });
 
 // Class routes // works!
-router.get('/classes', (req, res, next) => {
+router.get('/classes', (req, res) => {
   Classes.find(function (err, classes) {
     if (err) return console.log(err);
     res.send(classes);
@@ -146,7 +145,7 @@ router.get('/classes', (req, res, next) => {
 });
 
 // One Class by id // works!
-router.get('/classes/:id', (req, res, next) => {
+router.get('/classes/:id', (req, res) => {
   let id = req.params.id;
   Classes.findById(id, (err, oneClass) => {
     if (err) console.log(err);
