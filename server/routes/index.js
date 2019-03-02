@@ -69,7 +69,7 @@ router.post('/register', (req, res) => {
 // Login Handle // works
 router.post('/login', (req, res, next) => {
   passport.authenticate('local', {
-    // successRedirect: '/api/home',
+    successRedirect: '/api/home',
     failureRedirect: '/api/login'
   })(req, res, next);
 });
