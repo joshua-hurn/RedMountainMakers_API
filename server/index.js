@@ -9,16 +9,22 @@ const uri = process.env.MONGODB_URI;
 const app = express();
 const PORT = 3000;
 
+// Passport config
+require('../config/passport')(passport);
+// Connect to Mongo
 mongoose.connect(uri, {
   useCreateIndex: true,
   useNewUrlParser: true
 });
-
+// Express Session
 app.use(session({
   secret: 'secret',
   resave: true,
   saveUninitialized: true
 }));
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(express.json());
 app.use('/api', routes);

@@ -6,17 +6,17 @@ const passport = require('passport');
 const Users = require('../../db/models').Users;
 const Classes = require('../../db/models').Classes;
 
-// Login Page
+// Login Page // works
 router.get('/login', (req, res) => {
   res.send('login');
 });
 
-// Register Page
+// Register Page // works
 router.get('/register', (req, res) => {
   res.send('register');
 });
 
-// Register
+// Register // works
 router.post('/register', (req, res) => {
   const { email, firstName, lastName, password, password2 } = req.body;
   let errors = [];
@@ -53,7 +53,6 @@ router.post('/register', (req, res) => {
           bcrypt.hash(newUser.password, salt, (err, hash) => {
             if (err) throw err;
             newUser.password = hash;
-            // newUser.salt = salt;
             newUser
               .save()
               .then(user => {
@@ -67,21 +66,25 @@ router.post('/register', (req, res) => {
   }
 });
 
-// // Login
-// router.post('/login', (req, res, next) => {
-//   passport.authenticate('local', {
-//     successRedirect: '/dashboard',
-//     failureRedirect: '/users/login',
-//     failureFlash: true
-//   })(req, res, next);
-// });
+// Login Handle // works
+router.post('/login', (req, res, next) => {
+  passport.authenticate('local', {
+    successRedirect: '/api/home',
+    failureRedirect: '/api/login'
+  })(req, res, next);
+});
 
-// // Logout
-// router.get('/logout', (req, res) => {
-//   req.logout();
-//   req.flash('success_msg', 'You are logged out');
-//   res.redirect('/users/login');
-// });
+// Logout // works
+router.get('/logout', (req, res) => {
+  req.logout();
+  // req.flash('success_msg', 'You are logged out');
+  res.redirect('/api/login');
+});
+
+// Home Page // works
+router.get('/home', (req, res, next) => {
+  res.send('home page')
+});
 
 // User routes // Works!
 router.get('/users', (req, res, next) => {
