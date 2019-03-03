@@ -4,7 +4,7 @@ const routes = require('./routes');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const session = require('express-session');
-const uri = process.env.MONGODB_URI;
+const uri = "mongodb+srv://mbanks:12345@rmm-api-0m2qy.mongodb.net/test?retryWrites=true"
 
 const app = express();
 const PORT = 3000;
