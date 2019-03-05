@@ -6,6 +6,20 @@ const passport = require('passport');
 const Users = require('../../db/models').Users;
 const Classes = require('../../db/models').Classes;
 
+//Stripe Payment
+const stripe = require('stripe')(sk_test_GnmRcMSYdg0DD9UssnZX1pt7);
+
+router.post('/doPayment/', (req, res) => {
+  return stripe.charges
+    .create({
+      amount: req.body.amount, // Unit: cents
+      currency: 'usd',
+      source: req.body.tokenId,
+      description: 'Test payment',
+    })
+    .then(result => res.status(200).json(result));
+});
+
 // Login Page // works
 router.get('/login', (req, res) => {
   res.send('login');
