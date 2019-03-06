@@ -1,41 +1,50 @@
 const LocalStrategy = require('passport-local').Strategy;
-const mongoose = require('mongoose');
+const ppJWT = require('passport-jwt');
+const ExtractJWT = ppJWT.ExtractJwt;
+const JWTStrategy = ppJWT.Strategy;
+const { JWT_SECRET } = require('./index');
 const bcrypt = require('bcryptjs');
-
 // Load User model
 const Users = require('../db/models').Users;
-
-module.exports = function(passport) {
+module.exports = function (passport) {
   passport.use(
-    new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
-      // Match User
-      Users.findOne({ email: email })
-        .then(user => {
-          if(!user) {
-            return done(null, false, { message: 'Email is not registered.'});
+    new LocalStrategy({
+      usernameField: 'email'
+    },
+      async (email, password, done) => {
+        try {
+          const user = await Users.findOne({ email });
+          if (!user) {
+            return done(null, false, { message: 'Incorrect email.' });
           }
           // Match password
           bcrypt.compare(password, user.password, (err, isMatch) => {
-            if(err) throw err;
+            if (err) throw err;
 
-            if(isMatch) {
-              return done(null, user);
+            if (isMatch) {
+              return done(null, user, { message: 'Logged in Successfully.' });
             } else {
-              return done(null, false, { message: 'Password is incorrect.'});
+              return done(null, false, { message: 'Password is incorrect.' });
             }
           });
-        })
-        .catch(err => console.log(err));
-    })
+        } catch (err) {
+          done(err, false);
+        }
+      })
   );
-
-  passport.serializeUser((user, done) => {
-    done(null, user.id);
-  });
-
-  passport.deserializeUser((id, done) => {
-    Users.findById(id, (err, user) => {
-      done(err, user);
-    });
-  });
+  passport.use(new JWTStrategy({
+    jwtFromRequest: ExtractJWT.fromHeader('authorization'),
+    secretOrKey: JWT_SECRET
+  }, async (jwt_payload, done) => {
+    try {
+      const user = await Users.findById(jwt_payload.sub);
+      if (!user) {
+        return done(null, false);
+      }
+      done(null, user);
+    } catch (err) {
+      done(error, false);
+    }
+  }
+  ));
 };

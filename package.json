@@ -22,10 +22,13 @@
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
+    "jsonwebtoken": "^8.5.0",
     "mongoose": "^5.4.15",
     "mongoose-timestamp": "^0.6.0",
     "passport": "^0.4.0",
-    "passport-local": "^1.0.0"
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
+    "passport-local-token": "^1.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",
