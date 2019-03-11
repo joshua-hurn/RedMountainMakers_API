@@ -1,9 +1,14 @@
 {
   "name": "redmountainmakers_api",
   "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joshua-hurn/RedMountainMakers_API.git"
+  },
   "description": "API for RedMountainMakers mobile app",
   "main": "index.js",
   "scripts": {
+    "start": "node server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "babel": {
@@ -17,17 +22,17 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
-    "dotenv": "^6.2.0",
     "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "jsonwebtoken": "^8.5.0",
     "mongoose": "^5.4.15",
     "mongoose-timestamp": "^0.6.0",
-    "node-eventbrite": "0.0.19",
-    "stripe": "^6.26.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/joshua-hurn/RedMountainMakers_API.git"
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
+    "passport-local-token": "^1.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",
