@@ -45,34 +45,4 @@ router.put('/users/:id', (req, res, next) => {
     });
 });
 
-// Class routes // works!
-router.get('/classes', (req, res, next) => {
-  Classes.find(function (err, classes) {
-    if (err) return console.log(err);
-    res.send(classes);
-  });
-});
-
-// // One Class by id // works!
-// router.get('/classes/:id', (req, res, next) => {
-//     let id = req.params.id;
-//     Classes.findById(id, (err, oneClass) => {
-//         if (err) console.log(err);
-//         res.send(oneClass);
-//     });
-// });
-
-// router.put('/classes/:id', (req, res, next) => {
-//     try {
-//         Classes.findOneAndUpdate(
-//             { _id: req.params.id },
-//             { $set: { "name": req.body.name, "day": req.body.day, "time": req.body.time } },
-//             { upsert: false, returnNewDocument: true }
-//         )
-//         res.send('updated');
-//     } catch (err) {
-//         console.log(err);
-//     }
-// });
-
 module.exports = router;
