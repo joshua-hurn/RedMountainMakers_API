@@ -1,12 +1,15 @@
 const express = require('express');
 const router = express.Router();
+
 // Model
 const Users = require('../../db/models').Users;
+
 // Logout // works
 router.get('/logout', (req, res) => {
   req.logout();
-  res.status(200).json({message: "Logout Successful"});
+  res.status(200).json({ message: "Logout Successful" });
 });
+
 // User routes // Works!
 router.get('/users', (req, res) => {
   Users.find(function (err, users) {
@@ -14,6 +17,7 @@ router.get('/users', (req, res) => {
     res.send(users);
   });
 });
+
 // One User by id // works!
 router.get('/users/:id', (req, res) => {
   let id = req.params.id;
@@ -22,6 +26,7 @@ router.get('/users/:id', (req, res) => {
     res.send(user);
   })
 });
+
 // Update User // Works!
 router.put('/users/:id', (req, res, next) => {
   Users.findOneAndUpdate({ _id: { $eq: req.params.id } }, { $set: req.body },
@@ -30,6 +35,7 @@ router.put('/users/:id', (req, res, next) => {
       res.send('User updated.');
     });
 });
+
 // Delete User // Works!
 router.delete('/users/:id', (req, res, next) => {
   Users.findOneAndDelete({ _id: { $eq: req.params.id } },
@@ -38,4 +44,5 @@ router.delete('/users/:id', (req, res, next) => {
       res.send('User Deleted.');
     });
 });
+
 module.exports = router;

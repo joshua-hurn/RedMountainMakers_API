@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
+
 // Model
 const Classes = require('../../db/models').Classes;
+
 // Class routes // works!
 router.get('/classes', (req, res) => {
   Classes.find(function (err, classes) {
@@ -50,4 +52,5 @@ router.delete('/classes/:id', (req, res, next) => {
       res.send('Class Deleted.');
     });
 });
+
 module.exports = router;

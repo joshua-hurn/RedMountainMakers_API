@@ -2,11 +2,13 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const signToken = require('../../config/auth');
+
 // Model
 const Users = require('../../db/models').Users;
 router.get('/register', (req, res) => {
   res.status(200).send('signup page');
 });
+
 // Register User // works
 router.post('/register', (req, res) => {
   const { email, firstName, lastName, password, password2 } = req.body;
@@ -51,4 +53,5 @@ router.post('/register', (req, res) => {
     });
   }
 });
+
 module.exports = router;

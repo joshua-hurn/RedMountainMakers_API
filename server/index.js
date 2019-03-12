@@ -23,7 +23,7 @@ app.use((req, res, next) => {
 });
 // Listen
 app.listen(PORT, () => {
-    console.log(`server running on port ${PORT}`);
+  console.log(`server running on port ${PORT}`);
 });
 // Connect to DB
 const db = mongoose.connection;
