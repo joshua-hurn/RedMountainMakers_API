@@ -4,28 +4,15 @@ const express = require('express');
 const router = express.Router();
 const key = require('../../stripeKey');
 const stripe = require('stripe')(key);
+const Users = require('../../db/models').Users;
 stripe.setTimeout(20000);
-
-/*  ***TEST ROUTE WORKING RESPONSE LOGGED***
-router.post('/test', (req, res) => {
-    (async () => {
-        const charge = await stripe.charges.create({
-            amount: 999,
-            currency: 'usd',
-            source: 'tok_visa',
-            receipt_email: 'jenny.rosen@example.com',
-        });
-    })();
-    console.log(res);
-})
-*/
 
 // Create new product
 router.post('/products', (req, res) => {
     try {
         const product = stripe.products.create({
-            name: 'Red Mountain Makers Membership',
-            type: 'service',
+            name: req.body.name,
+            type: req.body.type,
         });
         res.sendStatus(200);
         stripe.products.list(
@@ -54,7 +41,6 @@ router.post('/plans', (req, res) => {
             amount: req.body.amount,
         });
         res.sendStatus(200);
-        res.send(plan);
     }
     catch (err) {
         console.error(err);
@@ -62,26 +48,29 @@ router.post('/plans', (req, res) => {
     }
 })
 
-// Create a new customer and then a new charge for that customer
-// router.post('/paymentuser', (req, res) => {
-//     stripe.customers.create({
-//         email: req.body.email
-//     }).then((customer) => {
-//         return stripe.customers.createSource(customer.id, {
-//             source: 'tok_visa'
-//         });
-//     }).then((source) => {
-//         return stripe.charges.create({
-//             amount: 1,
-//             currency: 'usd',
-//             customer: source.customer
-//         });
-//     }).then((charge) => {
-//         // New charge created on a new customer
-//     }).catch((err) => {
-//         // Deal with an error
-//     });
-//     console.log(res);
-// })
+// Create customer and set their id to the Stripe payment source(ie. credit card) via token.
+// Then update db with their id for recurring payments.
+router.post('/createcustomer', (req, res) => {
+    (async () => {
+        // Create a Customer:
+        const customer = await stripe.customers.create({
+            source: 'tok_mastercard',
+            email: 'paying.user@example.com',
+        });
+
+        // Charge the Customer instead of the card:
+        const charge = await stripe.charges.create({
+            amount: 1000,
+            currency: 'usd',
+            customer: customer.id,
+        });
+
+        Users.findOneAndUpdate({ _id: { $eq: req.params.id } }, { $set: { customer_id: customer } },
+            (err) => {
+                if (err) return next(err);
+                res.send('Customer_id updated.');
+            });
+    })
+})
 
 module.exports = router;
